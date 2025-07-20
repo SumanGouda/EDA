@@ -62,6 +62,8 @@ if not session_code:
 try:
     session = fastf1.get_session(year, event_name, session_code)
     session.load()
+    df = session.laps
+    results = session.results.sort_values(by='Abbreviation')
     st.toast(
     f"✅ Successfully loaded {event_name} {session_type} ({session_code})", 
     icon="🏎️"
@@ -70,18 +72,4 @@ except Exception as e:
     st.error(f"❌ Failed to load session: {str(e)}")
     st.stop()
     
-import plotly.express as px
-
-
-# Sample data
-df = pd.DataFrame({
-    "x": [1, 2, 3, 4, 5],
-    "y": [10, 20, 15, 25, 30]
-})
-
-# Create interactive plot
-fig = px.line(df, x="x", y="y", title="Interactive Plot")
-
-# Display in Streamlit
-st.plotly_chart(fig)
 
